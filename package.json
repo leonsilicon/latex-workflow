@@ -1,6 +1,6 @@
 {
 	"name": "lualatex-py",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "LuaLaTeX wrapper that runs Python code if it exists in the file.",
 	"license": "MIT",
 	"repository": "leonzalion/lualatex-py",
