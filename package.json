@@ -57,5 +57,8 @@
 		"execa": "^6.1.0",
 		"is-absolute": "^1.0.0",
 		"minimist": "^1.2.5"
+	},
+	"publishConfig": {
+		"directory": "dist"
 	}
 }
