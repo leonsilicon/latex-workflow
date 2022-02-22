@@ -55,9 +55,9 @@
 		]
 	},
 	"dependencies": {
+		"commander": "^9.0.0",
 		"execa": "^6.1.0",
-		"is-absolute": "^1.0.0",
-		"minimist": "^1.2.5"
+		"is-absolute": "^1.0.0"
 	},
 	"publishConfig": {
 		"directory": "dist"

@@ -1,20 +1,15 @@
-import process from 'node:process';
 import path from 'node:path';
 import { execaSync } from 'execa';
-import isAbsolute from 'is-absolute';
-import minimist from 'minimist';
+import { program } from 'commander';
 
-const argv = minimist(process.argv);
-const latexFileFullPath = argv._.at(-1);
-const outputDirectoryName = argv['output-directory'] as string | undefined;
+program
+	.showHelpAfterError()
+	.argument('<file>', 'full path to latex file')
+	.option('--output-directory <dir>');
 
-if (outputDirectoryName === undefined) {
-	throw new Error('Output directory must be specified.');
-}
-
-if (latexFileFullPath === undefined || !isAbsolute(latexFileFullPath)) {
-	throw new Error('The full path to the LaTeX file must be specified.');
-}
+const cli = program.parse();
+const latexFileFullPath = cli.args[0]!;
+const outputDirectoryName = cli.opts()['output-directory'] as string;
 
 const execaOptions = { stdio: 'inherit' } as const;
 execaSync(

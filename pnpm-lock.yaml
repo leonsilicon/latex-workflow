@@ -7,6 +7,7 @@ specifiers:
   '@types/jest': ^27.0.3
   '@types/minimist': ^1.2.2
   '@types/node': ^17.0.0
+  commander: ^9.0.0
   eslint: ^8.5.0
   execa: ^6.1.0
   is-absolute: ^1.0.0
@@ -15,7 +16,6 @@ specifiers:
   lion-git-hooks: ^1.0.2
   lion-system: latest
   lionp: ^1.0.17
-  minimist: ^1.2.5
   prettier: ^2.5.1
   ts-jest: ^27.1.2
   ts-jest-resolver: ^2.0.0
@@ -23,9 +23,9 @@ specifiers:
   typescript: ^4.5.4
 
 dependencies:
+  commander: 9.0.0
   execa: 6.1.0
   is-absolute: 1.0.0
-  minimist: 1.2.5
 
 devDependencies:
   '@commitlint/cli': 15.0.0
@@ -2000,7 +2000,6 @@ packages:
   /commander/9.0.0:
     resolution: {integrity: sha512-JJfP2saEKbQqvW+FI93OYUB4ByV5cizMpFMiiJI8xDbBvQvSkIk0VvQdn1CZ8mqAO8Loq2h0gYTYtDFUZUeERw==}
     engines: {node: ^12.20.0 || >=14}
-    dev: true
 
   /commondir/1.0.1:
     resolution: {integrity: sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=}
@@ -4918,6 +4917,7 @@ packages:
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+    dev: true
 
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
