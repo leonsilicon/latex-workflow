@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { program } from 'commander';
 import { compileLatex } from '~/utils/latex.js';
 
@@ -12,5 +13,9 @@ export function lualatexPyCli() {
 	const latexFilePath = cli.args[0]!;
 	const outputDirectory = cli.opts().outputDirectory as string;
 
-	compileLatex({ latexFilePath, outputDirectory });
+	try {
+		compileLatex({ latexFilePath, outputDirectory });
+	} catch {
+		process.exit(1);
+	}
 }
