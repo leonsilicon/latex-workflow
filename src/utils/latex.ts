@@ -45,6 +45,11 @@ export function compileLatex({
 		execaOptions
 	);
 
+	// If there's no Python outputted, there's no need to run `pythontex`
+	if (!fs.existsSync(`${outDir}/${filename}.pytxcode`)) {
+		return;
+	}
+
 	execaSync(
 		'cp',
 		[`${filename}.tex`, `${outDir}/${filename}.tex`],
