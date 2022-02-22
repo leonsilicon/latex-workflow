@@ -19,28 +19,29 @@ lualatex-py --output-directory=out doc.tex
 ```
 
 If you're using VSCode LaTeX Workshop, add the following to your config:
-```json
+
+```jsonc
 {
   // ... other VSCode configs
-	"latex-workshop.latex.recipes": [
-		{
-			"name": "lualatex-py",
-			"tools": [
-				"lualatex-py"
-			]
-		},
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "lualatex-py",
+      "tools": [
+        "lualatex-py"
+      ]
+    },
     // ... other recipes
-	],
-	"latex-workshop.latex.tools": [
-		{
-			"name": "lualatex-py",
-			"command": "lualatex-py",
-			"args": [
-				"--output-directory=out",
-				"%DOC%.tex"
-			]
-		},
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "lualatex-py",
+      "command": "lualatex-py",
+      "args": [
+        "--output-directory=out",
+        "%DOC%.tex"
+      ]
+    },
     // ... other tools
-	]
+  ]
 }
 ```
