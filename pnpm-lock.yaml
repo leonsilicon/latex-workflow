@@ -8,14 +8,17 @@ specifiers:
   '@types/minimist': ^1.2.2
   '@types/node': ^17.0.0
   commander: ^9.0.0
+  desm: ^1.2.0
   eslint: ^8.5.0
   execa: ^6.1.0
+  filenamify: ^5.1.0
   is-absolute: ^1.0.0
   jest: ^27.4.5
   lint-staged: ^12.1.3
   lion-git-hooks: ^1.0.2
   lion-system: latest
   lionp: ^1.0.17
+  mock-argv: ^2.0.8
   prettier: ^2.5.1
   ts-jest: ^27.1.2
   ts-jest-resolver: ^2.0.0
@@ -34,12 +37,15 @@ devDependencies:
   '@types/jest': 27.4.0
   '@types/minimist': 1.2.2
   '@types/node': 17.0.19
+  desm: 1.2.0
   eslint: 8.9.0
+  filenamify: 5.1.0
   jest: 27.5.1
   lint-staged: 12.3.4
   lion-git-hooks: 1.0.3
   lion-system: 1.0.9
   lionp: 1.0.17
+  mock-argv: 2.0.8
   prettier: 2.5.1
   ts-jest: 27.1.3_1e2406a8ca2ae3dc934d01f9ee2aebbb
   ts-jest-resolver: 2.0.0
@@ -2271,6 +2277,10 @@ packages:
     engines: {node: '>=0.4.0'}
     dev: true
 
+  /desm/1.2.0:
+    resolution: {integrity: sha512-/sHgwtz8V4kzHc/cii4OTtpEssvYe/yDDlPnZyMP5wO5KXYGfUoh22n+8OMhepStjhq6o577SRgTrdfcRepDbw==}
+    dev: true
+
   /detect-newline/3.1.0:
     resolution: {integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==}
     engines: {node: '>=8'}
@@ -2999,6 +3009,20 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
       flat-cache: 3.0.4
+    dev: true
+
+  /filename-reserved-regex/3.0.0:
+    resolution: {integrity: sha512-hn4cQfU6GOT/7cFHXBqeBg2TbrMBgdD0kcjLhvSQYYwm3s4B6cjvBfb7nBALJLAXqmU5xajSa7X2NnUud/VCdw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: true
+
+  /filenamify/5.1.0:
+    resolution: {integrity: sha512-mVnYQYkNJZhzeb3SgXlQX6lY6KIrpMejfNw+DYwsIfi4DgenT8g6pA7xb68zOHjcXEzBSq3Ukwp6Dsin6O34Uw==}
+    engines: {node: '>=12.20'}
+    dependencies:
+      filename-reserved-regex: 3.0.0
+      strip-outer: 2.0.0
+      trim-repeated: 2.0.0
     dev: true
 
   /fill-range/7.0.1:
@@ -4919,6 +4943,11 @@ packages:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
     dev: true
 
+  /mock-argv/2.0.8:
+    resolution: {integrity: sha512-wmBvoN6Z8wiSzlL279U/tcojLwZ1vWMFOtZlq2gt7Xw0Vcd1PFpG/YE2JSG5oXEvICfszZ3xaLOXuifdf10oNw==}
+    engines: {node: '>=12'}
+    dev: true
+
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
     dev: true
@@ -6037,6 +6066,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /strip-outer/2.0.0:
+    resolution: {integrity: sha512-A21Xsm1XzUkK0qK1ZrytDUvqsQWict2Cykhvi0fBQntGG5JSprESasEyV1EZ/4CiR5WB5KjzLTrP/bO37B0wPg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: true
+
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
@@ -6203,6 +6237,13 @@ packages:
   /trim-newlines/4.0.2:
     resolution: {integrity: sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==}
     engines: {node: '>=12'}
+    dev: true
+
+  /trim-repeated/2.0.0:
+    resolution: {integrity: sha512-QUHBFTJGdOwmp0tbOG505xAgOp/YliZP/6UgafFXYZ26WT1bvQmSMJUvkeVSASuJJHbqsFbynTvkd5W8RBTipg==}
+    engines: {node: '>=12'}
+    dependencies:
+      escape-string-regexp: 5.0.0
     dev: true
 
   /ts-jest-resolver/2.0.0:
