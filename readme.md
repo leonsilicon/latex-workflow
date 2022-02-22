@@ -18,7 +18,7 @@ pnpm add --global lualatex-py
 lualatex-py --output-directory=out doc.tex
 ```
 
-If you're using VSCode LaTeX Workshop, add the following to your config:
+If you're using VSCode LaTeX Workshop, add the following to your `settings.json` file:
 
 ```jsonc
 {
