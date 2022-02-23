@@ -10,13 +10,13 @@
 		"url": "https://leonzalion.com"
 	},
 	"bin": {
-		"lualatex-py": "./lualatex-py.js"
+		"lualatex-py": "./bin/lualatex-py.js"
 	},
 	"type": "module",
 	"scripts": {
 		"release": "lionp",
 		"prepare": "lion-git-hooks",
-		"start": "node-ts ./src/index.ts",
+		"start": "node-ts ./src/bin/lualatex-py.ts",
 		"build": "node-ts ./scripts/build.ts",
 		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
 		"lint": "eslint --cache --fix .",
