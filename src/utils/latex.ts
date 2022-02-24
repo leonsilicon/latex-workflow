@@ -75,7 +75,7 @@ export function compileLatex({
 		// Run bibtex
 		if (fs.existsSync(`${tempDir}/${filename}.bcf`)) {
 			try {
-				execaSync('bibtex', [filename]);
+				execaSync('biber', [filename]);
 			} catch (error: unknown) {
 				const { exitCode } = error as ExecaError;
 				if (exitCode !== 2) {
