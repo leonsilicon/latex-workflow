@@ -2,9 +2,9 @@ import process from 'node:process';
 import { program } from 'commander';
 import { compileLatex } from '~/utils/latex.js';
 
-export function lualatexPyCli() {
+export function latexWorkflowCli() {
 	program
-		.name('lualatex-py')
+		.name('latex-workflow')
 		.showHelpAfterError()
 		.argument('<file>', 'full path to latex file')
 		.option('--output-directory <dir>');
