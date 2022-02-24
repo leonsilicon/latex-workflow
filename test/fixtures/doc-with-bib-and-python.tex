@@ -11,10 +11,10 @@ import re
 def get_bibliography_citations():
 	with open('biblatex-examples.tex', 'r') as f:
 		extracted_citations = ""
-		pattern = re.compile('@\{(\\w+),')
+		pattern = re.compile(r'@\w+\{(.*),', re.M)
 		bib_contents = f.read()
 		for m in re.finditer(pattern, bib_contents):
-			extracted_citations += f"{m.group(1)}: \cite{{{m.group(1)}}}\n"
+			extracted_citations += f"{m.group(1)}: \\cite{{{m.group(1)}}}\n\n"
 		return extracted_citations
 \end{pycode}
 % \end{noindent}

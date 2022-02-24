@@ -1,9 +1,23 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import process from 'node:process';
-import type { ExecaError } from 'execa';
 import { execaSync } from 'execa';
 import filenamify from 'filenamify';
+
+function luaLatex({ latexFilePath }: { latexFilePath: string }) {
+	execaSync(
+		'lualatex',
+		[
+			'--shell-escape',
+			'--enable-write18',
+			'-synctex=1',
+			'-interaction=nonstopmode',
+			'-file-line-error',
+			latexFilePath,
+		],
+		{ stdio: 'inherit' }
+	);
+}
 
 type CompileLatexProps = {
 	latexFilePath: string;
@@ -51,54 +65,18 @@ export function compileLatex({
 		fs.rmSync(`pythontex-files-${filename}`, { force: true, recursive: true });
 		fs.rmSync(`${filename}.pytxcode`, { force: true });
 
-		execaSync(
-			'lualatex',
-			[
-				'--shell-escape',
-				'--enable-write18',
-				'-synctex=1',
-				'-interaction=nonstopmode',
-				'-file-line-error',
-				filenameWithExt,
-			],
-			execaOptions
-		);
+		luaLatex({ latexFilePath });
 
-		let wasPythonTexRun = false;
 		// If there's pythontex artifacts outputted, run `pythontex`
 		if (fs.existsSync(`${tempDir}/${filename}.pytxcode`)) {
 			execaSync('pythontex', [filenameWithExt], execaOptions);
-			wasPythonTexRun = true;
+			luaLatex({ latexFilePath });
 		}
 
-		let wasBibTextRun = false;
 		// Run bibtex
 		if (fs.existsSync(`${tempDir}/${filename}.bcf`)) {
-			try {
-				execaSync('biber', [filename]);
-			} catch (error: unknown) {
-				const { exitCode } = error as ExecaError;
-				if (exitCode !== 2) {
-					throw error;
-				}
-			}
-
-			wasBibTextRun = true;
-		}
-
-		if (wasPythonTexRun || wasBibTextRun) {
-			execaSync(
-				'lualatex',
-				[
-					'--shell-escape',
-					'--enable-write18',
-					'-synctex=1',
-					'-interaction=nonstopmode',
-					'-file-line-error',
-					latexFilePath,
-				],
-				execaOptions
-			);
+			execaSync('biber', [filename]);
+			luaLatex({ latexFilePath });
 		}
 
 		fs.mkdirSync(outputDirectory, { recursive: true });

@@ -1,5 +1,6 @@
 import process from 'node:process';
 import { program } from 'commander';
+import type { ExecaError } from 'execa';
 import { compileLatex } from '~/utils/latex.js';
 
 export function latexWorkflowCli() {
@@ -7,7 +8,7 @@ export function latexWorkflowCli() {
 		.name('latex-workflow')
 		.showHelpAfterError()
 		.argument('<file>', 'full path to latex file')
-		.option('--output-directory <dir>');
+		.requiredOption('--output-directory <dir>');
 
 	const cli = program.parse();
 	const latexFilePath = cli.args[0]!;
@@ -15,7 +16,12 @@ export function latexWorkflowCli() {
 
 	try {
 		compileLatex({ latexFilePath, outputDirectory });
-	} catch {
+	} catch (error: unknown) {
+		// Don't log execa errors
+		if (!('exitCode' in (error as ExecaError))) {
+			console.error(error);
+		}
+
 		process.exit(1);
 	}
 }
