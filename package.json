@@ -3,7 +3,11 @@
 	"version": "1.0.5",
 	"description": "A custom LaTeX workflow for compiling LaTeX documents.",
 	"license": "MIT",
-	"repository": "leonzalion/latex-workflow",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonzalion/latex-workflow.git"
+	},
+	"homepage": "https://github.com/leonzalion/latex-workflow#readme",
 	"author": {
 		"name": "Leon Si",
 		"email": "contact@leonzalion.com",
