@@ -73,7 +73,7 @@ export function compileLatex({
 			luaLatex({ latexFilePath });
 		}
 
-		// Run bibtex
+		// Run biber
 		if (fs.existsSync(`${tempDir}/${filename}.bcf`)) {
 			execaSync('biber', [filename]);
 			luaLatex({ latexFilePath });
@@ -86,6 +86,10 @@ export function compileLatex({
 
 			return true;
 		});
+
+		// Clean the output directory
+		fs.rmSync(outputDirectory, { recursive: true, force: true });
+
 		// Copy all the temp files into the output directory
 		for (const tempFile of entriesToCopy) {
 			fs.cpSync(tempFile, path.join(outputDirectory, tempFile), {
@@ -93,7 +97,6 @@ export function compileLatex({
 			});
 		}
 
-		// Fs.rmSync(tempDir, { recursive: true, force: true });
 		// Attempt to remove the parent directory (only works when empty)
 		try {
 			fs.rmSync(tempLatexWorkflowDir);

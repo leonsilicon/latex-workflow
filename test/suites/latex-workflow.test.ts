@@ -20,98 +20,107 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-	// CleanArtifactDirectories();
+	cleanArtifactDirectories();
 });
 
 const ignoreDirectories = ['out'];
 
 function getOutDir() {
-	return path.join('out', filenamify(expect.getState().currentTestName));
+	return path.join(
+		fixturesPath,
+		'out',
+		filenamify(expect.getState().currentTestName)
+	);
 }
 
-const docNames = {
-	plainDoc: 'plain-doc.tex',
-	docWithBib: 'doc-with-bib.tex',
-	docWithPython: 'doc-with-python.tex',
-	docWithBibAndPython: 'doc-with-bib-and-python.tex',
+const docFilePaths = {
+	plainDoc: 'plain-doc/plain-doc.tex',
+	docWithBib: 'doc-with-bib/doc-with-bib.tex',
+	docWithPython: 'doc-with-python/doc-with-python.tex',
+	docWithBibAndPython: 'doc-with-bib-and-python/doc-with-bib-and-python.tex',
+	docWithImages: 'doc-with-images/doc-with-images.tex',
 };
 
-function docPdfName(docName: string) {
-	return `${path.basename(docName, '.tex')}.pdf`;
+function getLatexFilePath(docFilePath: string) {
+	return path.join(fixturesPath, docFilePath);
+}
+
+function getOutputPdfPath(docFilePath: string) {
+	const outDir = getOutDir();
+	return path.join(outDir, `${path.basename(docFilePath, '.tex')}.pdf`);
 }
 
 test('cli works', async () => {
-	const latexFilePath = path.join(fixturesPath, docNames.docWithPython);
+	const latexFilePath = getLatexFilePath(docFilePaths.docWithPython);
 	const outDir = getOutDir();
 	await mockArgv([latexFilePath, `--output-directory=${outDir}`], async () => {
 		latexWorkflowCli();
 	});
-	expect(
-		fs.existsSync(path.join(outDir, docPdfName(docNames.docWithPython)))
-	).toBe(true);
-});
-
-test('compiles plain latex file', async () => {
-	const latexFilePath = path.join(fixturesPath, docNames.plainDoc);
-	const outDir = getOutDir();
-	compileLatex({
-		latexFilePath,
-		outputDirectory: outDir,
-		ignoreDirectories,
-	});
-	expect(fs.existsSync(path.join(outDir, docPdfName(docNames.plainDoc)))).toBe(
+	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithPython))).toBe(
 		true
 	);
 });
 
-test('compiles latex file with python', async () => {
-	const latexFilePath = path.join(fixturesPath, docNames.docWithPython);
-	const outDir = getOutDir();
+test('compiles plain latex file', async () => {
+	const latexFilePath = path.join(fixturesPath, docFilePaths.plainDoc);
 	compileLatex({
 		latexFilePath,
-		outputDirectory: outDir,
+		outputDirectory: getOutDir(),
 		ignoreDirectories,
 	});
-	expect(
-		fs.existsSync(path.join(outDir, docPdfName(docNames.docWithPython)))
-	).toBe(true);
+	expect(fs.existsSync(getOutputPdfPath(docFilePaths.plainDoc))).toBe(true);
+});
+
+test('compiles latex file with python', async () => {
+	const latexFilePath = getLatexFilePath(docFilePaths.docWithPython);
+	compileLatex({
+		latexFilePath,
+		outputDirectory: getOutDir(),
+		ignoreDirectories,
+	});
+	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithPython))).toBe(
+		true
+	);
 });
 
 test('works with absolute path', async () => {
-	const latexFilePath = path.join(fixturesPath, docNames.docWithPython);
-	const outDir = path.join(fixturesPath, getOutDir());
 	compileLatex({
-		latexFilePath,
-		outputDirectory: outDir,
+		latexFilePath: getLatexFilePath(docFilePaths.docWithPython),
+		outputDirectory: getOutDir(),
 		ignoreDirectories,
 	});
-	expect(
-		fs.existsSync(path.join(outDir, docPdfName(docNames.docWithPython)))
-	).toBe(true);
+	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithPython))).toBe(
+		true
+	);
 });
 
 test('compiles latex file with bibliography', async () => {
-	const latexFilePath = path.join(fixturesPath, docNames.docWithBib);
-	const outDir = getOutDir();
 	compileLatex({
-		latexFilePath,
-		outputDirectory: outDir,
+		latexFilePath: getLatexFilePath(docFilePaths.docWithBib),
+		outputDirectory: getOutDir(),
 		ignoreDirectories,
 	});
-	expect(
-		fs.existsSync(path.join(outDir, docPdfName(docNames.docWithBib)))
-	).toBe(true);
+	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithBib))).toBe(true);
 });
 
 test('compiles latex with bibliography and python', async () => {
-	const latexFilePath = path.join(fixturesPath, docNames.docWithBibAndPython);
-	const outDir = getOutDir();
 	compileLatex({
-		latexFilePath,
-		outputDirectory: outDir,
+		latexFilePath: getLatexFilePath(docFilePaths.docWithBibAndPython),
+		outputDirectory: getOutDir(),
 		ignoreDirectories,
 	});
 	expect(
-		fs.existsSync(path.join(outDir, docPdfName(docNames.docWithBibAndPython)))
+		fs.existsSync(getOutputPdfPath(docFilePaths.docWithBibAndPython))
 	).toBe(true);
+});
+
+test('compiles latex with images', async () => {
+	compileLatex({
+		latexFilePath: getLatexFilePath(docFilePaths.docWithImages),
+		outputDirectory: getOutDir(),
+		ignoreDirectories,
+	});
+	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithImages))).toBe(
+		true
+	);
 });
