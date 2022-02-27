@@ -20,7 +20,8 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-	cleanArtifactDirectories();
+	// Don't delete the artifact folder in case we want to inspect the PDFs
+	// `cleanArtifactDirectories();`
 });
 
 const ignoreDirectories = ['out'];
