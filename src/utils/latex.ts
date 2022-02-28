@@ -110,7 +110,7 @@ export function compileLatex({
 
 		// Copy all the temp files into the output directory
 		for (const tempFile of entriesToCopy) {
-			if (fs.statSync(tempFile).isSymbolicLink()) continue;
+			if (fs.lstatSync(tempFile).isSymbolicLink()) continue;
 			fs.cpSync(tempFile, path.join(outputDirectory, tempFile), {
 				recursive: true,
 			});
@@ -132,7 +132,7 @@ export function compileLatex({
 
 		// Copy all the temp files into the output directory
 		for (const tempFile of entriesToCopy) {
-			if (fs.statSync(tempFile).isSymbolicLink()) continue;
+			if (fs.lstatSync(tempFile).isSymbolicLink()) continue;
 			fs.cpSync(tempFile, path.join(outputDirectory, tempFile), {
 				recursive: true,
 			});
