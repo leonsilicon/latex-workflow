@@ -1,10 +1,29 @@
 \documentclass{article}
 \usepackage{graphicx}
+\usepackage{tabularx}
 
 \graphicspath{{assets/}}
 
 \begin{document}
 \includegraphics{typeracer.png}
-\begin{unknownenvironment}
-\end{unknownenvironment}
+
+\begin{tabularx}{\linewidth}{|X|X|X|}
+	\hline
+	Header 1 &
+	Header 2 &
+	Header 3
+	\\\hline
+	1        &
+	2        &
+	3
+	\\\hline
+	4        &
+	5        &
+	6
+	\\\hline
+	7        &
+	8        &
+	9
+	\hline % Error: needs a \\ before the \hline
+\end{tabularx}
 \end{document}
