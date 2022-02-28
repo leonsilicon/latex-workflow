@@ -5,7 +5,7 @@ import mockArgv from 'mock-argv';
 import { join } from 'desm';
 import filenamify from 'filenamify';
 import { latexWorkflowCli } from '~/utils/cli.js';
-import { compileLatex } from '~/utils/latex.js';
+import { compileLatex, LatexError } from '~/utils/latex.js';
 
 const fixturesPath = join(import.meta.url, '../fixtures');
 process.chdir(fixturesPath);
@@ -24,7 +24,7 @@ afterAll(() => {
 	// `cleanArtifactDirectories();`
 });
 
-const ignoreDirectories = ['out'];
+const ignoreDirectories: string[] = [];
 
 function getOutDir() {
 	return path.join(
@@ -41,6 +41,7 @@ const docFilePaths = {
 	docWithBibAndPython: 'doc-with-bib-and-python/doc-with-bib-and-python.tex',
 	docWithImages: 'doc-with-images/doc-with-images.tex',
 	badDoc: 'bad-doc/bad-doc.tex',
+	badDocWithImages: 'bad-doc-with-images/bad-doc-with-images.tex',
 };
 
 function getDocNameFromPath(docFilePath: string) {
@@ -151,4 +152,14 @@ test('copies artifacts to output directory on failure', async () => {
 			)
 		)
 	);
+});
+
+test('fails when there is a bad doc with images', async () => {
+	expect(() => {
+		compileLatex({
+			latexFilePath: getLatexFilePath(docFilePaths.badDocWithImages),
+			outputDirectory: getOutDir(),
+			ignoreDirectories,
+		});
+	}).toThrow(LatexError);
 });

@@ -4,18 +4,35 @@ import process from 'node:process';
 import { execaSync } from 'execa';
 import filenamify from 'filenamify';
 
+export class LatexError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = 'LatexError';
+	}
+}
+
+export function runLatex(latexCb: () => void) {
+	try {
+		latexCb();
+	} catch (error: unknown) {
+		throw new LatexError((error as Error).message);
+	}
+}
+
 function luaLatex({ latexFilePath }: { latexFilePath: string }) {
-	execaSync(
-		'lualatex',
-		[
-			'--shell-escape',
-			'--enable-write18',
-			'-synctex=1',
-			'-interaction=nonstopmode',
-			'-file-line-error',
-			latexFilePath,
-		],
-		{ stdio: 'inherit' }
+	runLatex(() =>
+		execaSync(
+			'lualatex',
+			[
+				'--shell-escape',
+				'--enable-write18',
+				'-synctex=1',
+				'-interaction=nonstopmode',
+				'-file-line-error',
+				latexFilePath,
+			],
+			{ stdio: 'inherit' }
+		)
 	);
 }
 
@@ -70,13 +87,13 @@ export function compileLatex({
 
 		// If there's pythontex artifacts outputted, run `pythontex`
 		if (fs.existsSync(`${tempDir}/${filename}.pytxcode`)) {
-			execaSync('pythontex', [filenameWithExt], execaOptions);
+			runLatex(() => execaSync('pythontex', [filenameWithExt], execaOptions));
 			luaLatex({ latexFilePath });
 		}
 
 		// Run biber
 		if (fs.existsSync(`${tempDir}/${filename}.bcf`)) {
-			execaSync('biber', [filename]);
+			runLatex(() => execaSync('biber', [filename]));
 			luaLatex({ latexFilePath });
 		}
 
@@ -114,6 +131,7 @@ export function compileLatex({
 
 		// Copy all the temp files into the output directory
 		for (const tempFile of entriesToCopy) {
+			if (fs.statSync(tempFile).isSymbolicLink()) continue;
 			fs.cpSync(tempFile, path.join(outputDirectory, tempFile), {
 				recursive: true,
 			});
