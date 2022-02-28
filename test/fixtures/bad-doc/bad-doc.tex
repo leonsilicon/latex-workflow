@@ -1,0 +1,21 @@
+\documentclass{report}
+\usepackage{pythontex}
+\usepackage{tabularx}
+
+% Error: Need to construct entire tabularx table in Python
+% https://github.com/gpoore/pythontex/issues/25#issuecomment-26922469
+% \begin{noindent}
+\begin{pycode}
+def get_table_contents():
+	return """
+		\\hline
+		Header 1 & Header 2
+	"""
+\end{pycode}
+% \end{noindent}
+
+\begin{document}
+\begin{tabularx}{\linewidth}{|X|X|}
+	\py{get_table_contents()}
+\end{tabularx}
+\end{document}

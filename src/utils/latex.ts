@@ -31,14 +31,15 @@ export function compileLatex({
 }: CompileLatexProps) {
 	const oldCwd = process.cwd();
 
-	try {
-		const workingDir = path.dirname(latexFilePath);
-		const outputDirectory = path.resolve(workingDir, outputDirectoryProp);
+	const workingDir = path.dirname(latexFilePath);
+	const outputDirectory = path.resolve(workingDir, outputDirectoryProp);
 
-		const filename = path.basename(latexFilePath, '.tex');
-		const filenameWithExt = path.basename(latexFilePath);
-		const tempLatexWorkflowDir = path.join(workingDir, '../.latex-workflow');
-		const tempDir = path.resolve(tempLatexWorkflowDir, filenamify(filename));
+	const filename = path.basename(latexFilePath, '.tex');
+	const filenameWithExt = path.basename(latexFilePath);
+	const tempLatexWorkflowDir = path.join(workingDir, '../.latex-workflow');
+	const tempDir = path.resolve(tempLatexWorkflowDir, filenamify(filename));
+
+	try {
 		fs.rmSync(tempDir, { force: true, recursive: true });
 		fs.mkdirSync(tempDir, { recursive: true });
 
@@ -101,6 +102,24 @@ export function compileLatex({
 		try {
 			fs.rmSync(tempLatexWorkflowDir);
 		} catch {}
+	} catch (error: unknown) {
+		// On failure, copy all the temp files to the output directory so it's debuggable
+
+		const entriesToCopy = fs.readdirSync(tempDir).filter((entryName) => {
+			// .tex files don't belong in the output directory
+			if (path.parse(entryName).ext === '.tex') return false;
+
+			return true;
+		});
+
+		// Copy all the temp files into the output directory
+		for (const tempFile of entriesToCopy) {
+			fs.cpSync(tempFile, path.join(outputDirectory, tempFile), {
+				recursive: true,
+			});
+		}
+
+		throw error;
 	} finally {
 		process.chdir(oldCwd);
 	}

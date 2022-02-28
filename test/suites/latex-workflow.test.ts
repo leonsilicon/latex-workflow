@@ -40,7 +40,12 @@ const docFilePaths = {
 	docWithPython: 'doc-with-python/doc-with-python.tex',
 	docWithBibAndPython: 'doc-with-bib-and-python/doc-with-bib-and-python.tex',
 	docWithImages: 'doc-with-images/doc-with-images.tex',
+	badDoc: 'bad-doc/bad-doc.tex',
 };
+
+function getDocNameFromPath(docFilePath: string) {
+	return path.basename(docFilePath, '.tex');
+}
 
 function getLatexFilePath(docFilePath: string) {
 	return path.join(fixturesPath, docFilePath);
@@ -48,7 +53,7 @@ function getLatexFilePath(docFilePath: string) {
 
 function getOutputPdfPath(docFilePath: string) {
 	const outDir = getOutDir();
-	return path.join(outDir, `${path.basename(docFilePath, '.tex')}.pdf`);
+	return path.join(outDir, `${getDocNameFromPath(docFilePath)}.pdf`);
 }
 
 test('cli works', async () => {
@@ -123,5 +128,27 @@ test('compiles latex with images', async () => {
 	});
 	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithImages))).toBe(
 		true
+	);
+});
+
+test('copies artifacts to output directory on failure', async () => {
+	const outDir = getOutDir();
+
+	expect(() => {
+		compileLatex({
+			latexFilePath: getLatexFilePath(docFilePaths.badDoc),
+			outputDirectory: outDir,
+			ignoreDirectories,
+		});
+	}).toThrow();
+
+	expect(
+		fs.existsSync(
+			path.join(
+				outDir,
+				path.basename(docFilePaths.badDoc),
+				`pythontex-files-${getDocNameFromPath(docFilePaths.badDoc)}`
+			)
+		)
 	);
 });
