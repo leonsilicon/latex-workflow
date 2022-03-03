@@ -5,7 +5,7 @@ import mockArgv from 'mock-argv';
 import { join } from 'desm';
 import filenamify from 'filenamify';
 import { latexWorkflowCli } from '~/utils/cli.js';
-import { compileLatex, LatexError } from '~/utils/latex.js';
+import { compileLatex, LatexError } from '~/index.js';
 
 const fixturesPath = join(import.meta.url, '../fixtures');
 process.chdir(fixturesPath);
