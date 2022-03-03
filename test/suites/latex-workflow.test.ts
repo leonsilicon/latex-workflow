@@ -61,7 +61,7 @@ test('cli works', async () => {
 	const latexFilePath = getLatexFilePath(docFilePaths.docWithPython);
 	const outDir = getOutDir();
 	await mockArgv([latexFilePath, `--output-directory=${outDir}`], async () => {
-		latexWorkflowCli();
+		await latexWorkflowCli();
 	});
 	expect(fs.existsSync(getOutputPdfPath(docFilePaths.docWithPython))).toBe(
 		true
@@ -70,7 +70,7 @@ test('cli works', async () => {
 
 test('compiles plain latex file', async () => {
 	const latexFilePath = path.join(fixturesPath, docFilePaths.plainDoc);
-	compileLatex({
+	await compileLatex({
 		latexFilePath,
 		outputDirectory: getOutDir(),
 		ignoreDirectories,
@@ -80,7 +80,7 @@ test('compiles plain latex file', async () => {
 
 test('compiles latex file with python', async () => {
 	const latexFilePath = getLatexFilePath(docFilePaths.docWithPython);
-	compileLatex({
+	await compileLatex({
 		latexFilePath,
 		outputDirectory: getOutDir(),
 		ignoreDirectories,
@@ -91,7 +91,7 @@ test('compiles latex file with python', async () => {
 });
 
 test('works with absolute path', async () => {
-	compileLatex({
+	await compileLatex({
 		latexFilePath: getLatexFilePath(docFilePaths.docWithPython),
 		outputDirectory: getOutDir(),
 		ignoreDirectories,
@@ -102,7 +102,7 @@ test('works with absolute path', async () => {
 });
 
 test('compiles latex file with bibliography', async () => {
-	compileLatex({
+	await compileLatex({
 		latexFilePath: getLatexFilePath(docFilePaths.docWithBib),
 		outputDirectory: getOutDir(),
 		ignoreDirectories,
@@ -111,7 +111,7 @@ test('compiles latex file with bibliography', async () => {
 });
 
 test('compiles latex with bibliography and python', async () => {
-	compileLatex({
+	await compileLatex({
 		latexFilePath: getLatexFilePath(docFilePaths.docWithBibAndPython),
 		outputDirectory: getOutDir(),
 		ignoreDirectories,
@@ -122,7 +122,7 @@ test('compiles latex with bibliography and python', async () => {
 });
 
 test('compiles latex with images', async () => {
-	compileLatex({
+	await compileLatex({
 		latexFilePath: getLatexFilePath(docFilePaths.docWithImages),
 		outputDirectory: getOutDir(),
 		ignoreDirectories,
@@ -135,13 +135,13 @@ test('compiles latex with images', async () => {
 test('copies artifacts to output directory on failure', async () => {
 	const outDir = getOutDir();
 
-	expect(() => {
-		compileLatex({
+	await expect(async () => {
+		await compileLatex({
 			latexFilePath: getLatexFilePath(docFilePaths.badDoc),
 			outputDirectory: outDir,
 			ignoreDirectories,
 		});
-	}).toThrow();
+	}).rejects.toThrow();
 
 	expect(
 		fs.existsSync(
@@ -155,11 +155,11 @@ test('copies artifacts to output directory on failure', async () => {
 });
 
 test('fails when there is a bad doc with images', async () => {
-	expect(() => {
-		compileLatex({
+	await expect(async () => {
+		await compileLatex({
 			latexFilePath: getLatexFilePath(docFilePaths.badDocWithImages),
 			outputDirectory: getOutDir(),
 			ignoreDirectories,
 		});
-	}).toThrow(LatexError);
+	}).rejects.toThrow(LatexError);
 });

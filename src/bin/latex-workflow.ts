@@ -2,4 +2,4 @@
 
 import { latexWorkflowCli } from '~/utils/cli.js';
 
-latexWorkflowCli();
+await latexWorkflowCli();

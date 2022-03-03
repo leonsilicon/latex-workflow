@@ -9,6 +9,7 @@ const config = {
 	modulePathIgnorePatterns: ['<rootDir>/dist'],
 	setupFiles: ['./test/jest.setup.ts'],
 	extensionsToTreatAsEsm: ['.ts'],
+	testTimeout: 10_000,
 	globals: {
 		'ts-jest': {
 			useESM: true,
