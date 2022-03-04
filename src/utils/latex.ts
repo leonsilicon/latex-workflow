@@ -1,7 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import process from 'node:process';
-import type { Buffer } from 'node:buffer';
 import type { ExecaChildProcess } from 'execa';
 import { execa } from 'execa';
 import filenamify from 'filenamify';
@@ -16,20 +15,6 @@ export class LatexError extends Error {
 export async function runLatex(latexCb: () => ExecaChildProcess) {
 	try {
 		const latexProcess = latexCb();
-		const dataCallback = (data: Buffer) => {
-			const dataString = data.toString();
-			if (
-				!dataString.includes(
-					'Package PythonTeX Warning: Missing autoprint content on input line'
-				)
-			) {
-				console.info(dataString);
-			}
-		};
-
-		latexProcess.stderr?.on('data', dataCallback);
-		latexProcess.stdout?.on('data', dataCallback);
-
 		await latexProcess;
 	} catch (error: unknown) {
 		throw new LatexError((error as Error).message);
@@ -38,14 +23,18 @@ export async function runLatex(latexCb: () => ExecaChildProcess) {
 
 async function luaLatex({ latexFilePath }: { latexFilePath: string }) {
 	await runLatex(() =>
-		execa('lualatex', [
-			'--shell-escape',
-			'--enable-write18',
-			'-synctex=1',
-			'-interaction=nonstopmode',
-			'-file-line-error',
-			latexFilePath,
-		])
+		execa(
+			'lualatex',
+			[
+				'--shell-escape',
+				'--enable-write18',
+				'-synctex=1',
+				'-interaction=nonstopmode',
+				'-file-line-error',
+				latexFilePath,
+			],
+			{ stdio: 'inherit' }
+		)
 	);
 }
 
