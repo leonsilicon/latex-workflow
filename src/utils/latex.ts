@@ -64,19 +64,37 @@ export async function compileLatex({
 
 		const execaOptions = { stdio: 'inherit' } as const;
 
-		let workingDirEntries = await fs.promises.readdir(workingDir);
-		workingDirEntries = workingDirEntries
+		const workingDirEntries = await fs.promises.readdir(workingDir);
+		const workingDirEntriesToSymlink = workingDirEntries
 			.filter(
 				(entryName) =>
-					// Don't copy output directory
 					!ignoreDirectories.includes(entryName) &&
+					// Don't symlink .tex files (in case they are changed during the build)
+					path.parse(entryName).ext !== '.tex' &&
+					// Don't copy output directory
 					entryName !== path.basename(outputDirectory)
+			)
+			.map((entryName) => path.join(workingDir, entryName));
+
+		const workingDirEntriesToCopy = workingDirEntries
+			.filter(
+				(entryName) =>
+					!ignoreDirectories.includes(entryName) &&
+					// Copy .tex files (in case they are changed during the build)
+					path.parse(entryName).ext === '.tex'
 			)
 			.map((entryName) => path.join(workingDir, entryName));
 
 		// Symlink all the files into the output directory
 		// The symlinked folder is created in the same directory level as the LaTeX files
-		await execa('ln', ['-s', ...workingDirEntries, tempDir]);
+		if (workingDirEntriesToSymlink.length > 0) {
+			await execa('ln', ['-s', ...workingDirEntriesToSymlink, tempDir]);
+		}
+
+		if (workingDirEntriesToCopy.length > 0) {
+			// Copy all .tex files to output directory
+			await execa('cp', [...workingDirEntriesToCopy, tempDir]);
+		}
 
 		// Change directory into the temporary artifacts directory
 		process.chdir(tempDir);
