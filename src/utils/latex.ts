@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import process from 'node:process';
 import type { ExecaChildProcess } from 'execa';
 import { execa } from 'execa';
-import filenamify from 'filenamify';
+import { dir } from 'tmp-promise';
 
 export class LatexError extends Error {
 	constructor(message: string) {
@@ -55,13 +55,9 @@ export async function compileLatex({
 
 	const filename = path.basename(latexFilePath, '.tex');
 	const filenameWithExt = path.basename(latexFilePath);
-	const tempLatexWorkflowDir = path.join(workingDir, '../.latex-workflow');
-	const tempDir = path.resolve(tempLatexWorkflowDir, filenamify(filename));
+	const { path: tempDir, cleanup } = await dir({ unsafeCleanup: true });
 
 	try {
-		await fs.promises.rm(tempDir, { force: true, recursive: true });
-		await fs.promises.mkdir(tempDir, { recursive: true });
-
 		const execaOptions = { stdio: 'inherit' } as const;
 
 		const workingDirEntries = await fs.promises.readdir(workingDir);
@@ -129,9 +125,6 @@ export async function compileLatex({
 			return true;
 		});
 
-		// Clean the output directory
-		await fs.promises.rm(outputDirectory, { recursive: true, force: true });
-
 		// Copy all the temp files into the output directory
 		await Promise.all(
 			entriesToCopy.map(async (tempFile) => {
@@ -139,14 +132,10 @@ export async function compileLatex({
 				if (tempFileLstat.isSymbolicLink()) return;
 				await fs.promises.cp(tempFile, path.join(outputDirectory, tempFile), {
 					recursive: true,
+					force: true,
 				});
 			})
 		);
-
-		// Attempt to remove the parent directory (only works when empty)
-		try {
-			await fs.promises.rm(tempLatexWorkflowDir);
-		} catch {}
 	} catch (error: unknown) {
 		// On failure, copy all the temp files to the output directory so it's debuggable
 		const tempDirEntries = await fs.promises.readdir(tempDir);
@@ -170,6 +159,7 @@ export async function compileLatex({
 
 		throw error;
 	} finally {
+		await cleanup();
 		process.chdir(oldCwd);
 	}
 }

@@ -163,3 +163,29 @@ test('fails when there is a bad doc with images', async () => {
 		});
 	}).rejects.toThrow(LatexError);
 });
+
+test('can compile multiple files at once', async () => {
+	const promises: Array<ReturnType<typeof compileLatex>> = [];
+	const outputDirectories = Array.from({ length: 5 }).map((_, i) =>
+		path.join(getOutDir(), `doc${i}`)
+	);
+	for (let i = 0; i < 5; i += 1) {
+		promises.push(
+			compileLatex({
+				latexFilePath: getLatexFilePath(docFilePaths.plainDoc),
+				outputDirectory: outputDirectories[i]!,
+				ignoreDirectories,
+			})
+		);
+	}
+
+	await Promise.all(promises);
+
+	for (const outputDirectory of outputDirectories) {
+		expect(
+			fs.existsSync(
+				path.join(outputDirectory, getDocNameFromPath(docFilePaths.plainDoc))
+			)
+		);
+	}
+});
