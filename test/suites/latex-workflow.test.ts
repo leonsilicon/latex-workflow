@@ -169,11 +169,11 @@ test('can compile multiple files at once', async () => {
 	const outputDirectories = Array.from({ length: 5 }).map((_, i) =>
 		path.join(getOutDir(), `doc${i}`)
 	);
-	for (let i = 0; i < 5; i += 1) {
+	for (const outputDirectory of outputDirectories) {
 		promises.push(
 			compileLatex({
 				latexFilePath: getLatexFilePath(docFilePaths.plainDoc),
-				outputDirectory: outputDirectories[i]!,
+				outputDirectory,
 				ignoreDirectories,
 			})
 		);
@@ -184,8 +184,11 @@ test('can compile multiple files at once', async () => {
 	for (const outputDirectory of outputDirectories) {
 		expect(
 			fs.existsSync(
-				path.join(outputDirectory, getDocNameFromPath(docFilePaths.plainDoc))
+				path.join(
+					outputDirectory,
+					`${getDocNameFromPath(docFilePaths.plainDoc)}.pdf`
+				)
 			)
-		);
+		).toBe(true);
 	}
 });
