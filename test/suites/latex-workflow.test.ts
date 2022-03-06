@@ -1,14 +1,13 @@
 import * as path from 'node:path';
 import fs from 'node:fs';
-import * as process from 'node:process';
 import mockArgv from 'mock-argv';
 import { join } from 'desm';
 import filenamify from 'filenamify';
+import { beforeAll, afterAll, test, expect } from 'vitest';
 import { latexWorkflowCli } from '~/utils/cli.js';
 import { compileLatex, LatexError } from '~/index.js';
 
 const fixturesPath = join(import.meta.url, '../fixtures');
-process.chdir(fixturesPath);
 
 function cleanArtifactDirectories() {
 	fs.rmSync('out', { force: true, recursive: true });
