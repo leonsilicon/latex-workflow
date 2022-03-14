@@ -57,6 +57,8 @@ export async function compileLatex({
 	const workingDir = path.dirname(latexFilePath);
 	const outputDirectory = path.resolve(workingDir, outputDirectoryProp);
 
+	await fs.promises.mkdir(outputDirectory, { recursive: true });
+
 	const filename = path.basename(latexFilePath, '.tex');
 	const filenameWithExt = path.basename(latexFilePath);
 	const { path: tempDir, cleanup } = await dir({ unsafeCleanup: true });
@@ -132,11 +134,11 @@ export async function compileLatex({
 		await fs.promises.rm(`${filename}.pytxcode`, { force: true });
 
 		// If the file uses JSLaTeX, compile and write the corresponding .tex file
-		const latex = await fs.promises.readFile(latexFilePath, 'utf-8');
+		const latex = await fs.promises.readFile(latexFilePath, 'utf8');
 		const jsLatex = await compileJsLatex({ latex });
 		latexFilePath = path.join(
 			outputDirectory,
-			`${path.parse(latexFilePath).name}.compiled.tex`
+			`${path.parse(latexFilePath).name}.tex`
 		);
 		await fs.promises.writeFile(latexFilePath, jsLatex);
 

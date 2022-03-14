@@ -36,7 +36,7 @@ const docFilePaths = {
 	docWithImages: 'doc-with-images/doc-with-images.tex',
 	badDoc: 'bad-doc/bad-doc.tex',
 	badDocWithImages: 'bad-doc-with-images/bad-doc-with-images.tex',
-	jslatexDoc: 'jslatex-doc/test.tex',
+	jslatexDoc: 'jslatex-doc/jslatex-doc.tex',
 };
 
 function getDocNameFromPath(docFilePath: string) {
