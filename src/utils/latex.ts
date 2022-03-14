@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import type { ExecaChildProcess } from 'execa';
 import { execa } from 'execa';
 import { dir } from 'tmp-promise';
+import { compileJsLatex } from 'jslatex';
 
 export class LatexError extends Error {
 	constructor(message: string) {
@@ -60,6 +61,35 @@ export async function compileLatex({
 	const filenameWithExt = path.basename(latexFilePath);
 	const { path: tempDir, cleanup } = await dir({ unsafeCleanup: true });
 
+	async function copyTempFilesToOutdir({ force }: { force: boolean }) {
+		const tempEntries = await fs.promises.readdir(tempDir);
+
+		const entriesToCopy = tempEntries.filter((entryName) => {
+			// .tex files don't belong in the output directory
+			const { ext } = path.parse(entryName);
+			if (ext === '.tex' || ext === '.jtex') return false;
+
+			return true;
+		});
+
+		// Copy all the temp files into the output directory
+		await Promise.all(
+			entriesToCopy.map(async (tempFile) => {
+				const tempFilePath = path.join(tempDir, tempFile);
+				const tempFileLstat = await fs.promises.lstat(tempFilePath);
+				if (tempFileLstat.isSymbolicLink()) return;
+				await fs.promises.cp(
+					tempFilePath,
+					path.join(outputDirectory, tempFile),
+					{
+						recursive: true,
+						force,
+					}
+				);
+			})
+		);
+	}
+
 	try {
 		const execaOptions = { cwd: tempDir, stdio: 'inherit' } as const;
 		const workingDirEntries = await fs.promises.readdir(workingDir);
@@ -101,6 +131,12 @@ export async function compileLatex({
 		});
 		await fs.promises.rm(`${filename}.pytxcode`, { force: true });
 
+		// If the file uses JSLaTeX, compile and write the corresponding .tex file
+		const latex = await fs.promises.readFile(latexFilePath, 'utf-8');
+		const jsLatex = await compileJsLatex({ latex });
+		latexFilePath = `${path.parse(latexFilePath).name}.tex`;
+		await fs.promises.writeFile(latexFilePath, jsLatex);
+
 		await luaLatex({ latexFilePath, tempDir });
 
 		// If there's pythontex artifacts outputted, run `pythontex`
@@ -116,58 +152,9 @@ export async function compileLatex({
 		}
 
 		await fs.promises.mkdir(outputDirectory, { recursive: true });
-		const tempEntries = await fs.promises.readdir(tempDir);
-
-		const entriesToCopy = tempEntries.filter((entryName) => {
-			// .tex files don't belong in the output directory
-			if (path.parse(entryName).ext === '.tex') return false;
-
-			return true;
-		});
-
-		// Copy all the temp files into the output directory
-		await Promise.all(
-			entriesToCopy.map(async (tempFile) => {
-				const tempFilePath = path.join(tempDir, tempFile);
-				const tempFileLstat = await fs.promises.lstat(tempFilePath);
-				if (tempFileLstat.isSymbolicLink()) return;
-				await fs.promises.cp(
-					tempFilePath,
-					path.join(outputDirectory, tempFile),
-					{
-						recursive: true,
-						force: true,
-					}
-				);
-			})
-		);
+		await copyTempFilesToOutdir({ force: true });
 	} catch (error: unknown) {
-		// On failure, copy all the temp files to the output directory so it's debuggable
-		const tempDirEntries = await fs.promises.readdir(tempDir);
-
-		const entriesToCopy = tempDirEntries.filter((entryName) => {
-			// .tex files don't belong in the output directory
-			if (path.parse(entryName).ext === '.tex') return false;
-
-			return true;
-		});
-
-		// Copy all the temp files into the output directory
-		await Promise.all(
-			entriesToCopy.map(async (tempFile) => {
-				const tempFilePath = path.join(tempDir, tempFile);
-				const tempFileLstat = await fs.promises.lstat(tempFilePath);
-				if (tempFileLstat.isSymbolicLink()) return;
-				await fs.promises.cp(
-					tempFilePath,
-					path.join(outputDirectory, tempFile),
-					{
-						recursive: true,
-					}
-				);
-			})
-		);
-
+		await copyTempFilesToOutdir({ force: false });
 		throw error;
 	} finally {
 		await cleanup();
