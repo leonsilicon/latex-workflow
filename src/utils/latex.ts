@@ -134,7 +134,10 @@ export async function compileLatex({
 		// If the file uses JSLaTeX, compile and write the corresponding .tex file
 		const latex = await fs.promises.readFile(latexFilePath, 'utf-8');
 		const jsLatex = await compileJsLatex({ latex });
-		latexFilePath = `${path.parse(latexFilePath).name}.tex`;
+		latexFilePath = path.join(
+			outputDirectory,
+			`${path.parse(latexFilePath).name}.compiled.tex`
+		);
 		await fs.promises.writeFile(latexFilePath, jsLatex);
 
 		await luaLatex({ latexFilePath, tempDir });
