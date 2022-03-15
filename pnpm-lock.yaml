@@ -14,7 +14,7 @@ specifiers:
   filenamify: ^5.1.0
   globby: ^13.1.1
   is-absolute: ^1.0.0
-  jslatex: ^0.0.2
+  jslatex: ^0.0.3
   lint-staged: ^12.3.5
   lion-git-hooks: ^1.0.7
   lion-system: ^1.0.14
@@ -33,7 +33,7 @@ dependencies:
   filenamify: 5.1.0
   globby: 13.1.1
   is-absolute: 1.0.0
-  jslatex: 0.0.2
+  jslatex: 0.0.3
   nanoid: 3.3.1
   tmp-promise: 3.0.3
 
@@ -3399,13 +3399,14 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jslatex/0.0.2:
-    resolution: {integrity: sha512-LgbhXHp3SUxhXUcbZLeyDsf/MJxCCBd6UHlja7NDYo1XgxWmZvjPqM1Uppgv9Xp2E9Ju77+GURMjK8h2UczsEg==}
+  /jslatex/0.0.3:
+    resolution: {integrity: sha512-eWFMVXMi3VekAs+1ng/1JmS21NX1pa8YUau9AsrvIGA1EH0xBOVeZMeJWdaOJ4luQ4HaQTUNr66It1IvuCCneA==}
     hasBin: true
     dependencies:
       commander: 9.0.0
       ejs: 3.1.6
       outdent: 0.8.0
+      ramda: 0.28.0
     dev: false
 
   /json-buffer/3.0.0:
@@ -4480,6 +4481,10 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
+
+  /ramda/0.28.0:
+    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
+    dev: false
 
   /rc/1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
