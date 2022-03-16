@@ -14,7 +14,7 @@ specifiers:
   filenamify: ^5.1.0
   globby: ^13.1.1
   is-absolute: ^1.0.0
-  jslatex: ^0.1.0
+  jslatex: ^0.1.1
   lint-staged: ^12.3.5
   lion-git-hooks: ^1.0.7
   lion-system: ^1.0.14
@@ -33,7 +33,7 @@ dependencies:
   filenamify: 5.1.0
   globby: 13.1.1
   is-absolute: 1.0.0
-  jslatex: 0.1.0
+  jslatex: 0.1.1
   nanoid: 3.3.1
   tmp-promise: 3.0.3
 
@@ -3425,8 +3425,8 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jslatex/0.1.0:
-    resolution: {integrity: sha512-Oucq0/w3x9w18bF2QtR8Z3fofpQW44KcT/v4yqiSpz8tMezM5h3clQ2aOZw6v73xFXQNlgw6zBedAiGEkZStig==}
+  /jslatex/0.1.1:
+    resolution: {integrity: sha512-pE874QmtkG7pONhKxixw+vCkT0jB3ALjtWNTswUm+TWXFeyy+toUevq7jPvSqMIaw5vNgNf8RAidmTx9Y5jkwA==}
     hasBin: true
     dependencies:
       commander: 9.0.0
