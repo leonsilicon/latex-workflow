@@ -135,7 +135,10 @@ export async function compileLatex({
 
 		// If the file uses JSLaTeX, compile and write the corresponding .tex file
 		const latex = await fs.promises.readFile(latexFilePath, 'utf8');
-		const jsLatex = await compileJsLatex({ latex });
+		const jsLatex = await compileJsLatex({
+			latex,
+			projectBaseUrl: path.normalize(workingDir + '/'),
+		});
 		latexFilePath = path.join(
 			outputDirectory,
 			`${path.parse(latexFilePath).name}.tex`

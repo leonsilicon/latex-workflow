@@ -1,0 +1,10 @@
+\documentclass{article}
+
+<? const { default: cowsay } = await import('cowsay') ?>
+
+\begin{document}
+\begin{verbatim}
+<?# Using the cowsay package from https://www.npmjs.com/package/cowsay ?>
+<?= cowsay.say({ text: 'LaTeX!' }) ?>
+\end{verbatim}
+\end{document}

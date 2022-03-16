@@ -65,7 +65,7 @@
 		"filenamify": "^5.1.0",
 		"globby": "^13.1.1",
 		"is-absolute": "^1.0.0",
-		"jslatex": "^0.1.1",
+		"jslatex": "^0.1.2",
 		"nanoid": "^3.3.1",
 		"tmp-promise": "^3.0.3"
 	},

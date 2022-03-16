@@ -37,6 +37,7 @@ const docFilePaths = {
 	badDoc: 'bad-doc/bad-doc.tex',
 	badDocWithImages: 'bad-doc-with-images/bad-doc-with-images.tex',
 	jslatexDoc: 'jslatex-doc/jslatex-doc.tex',
+	jslatexDocWithDeps: 'jslatex-doc-with-deps/jslatex-doc-with-deps.tex',
 };
 
 function getDocNameFromPath(docFilePath: string) {
@@ -237,6 +238,20 @@ function getOutputPdfPath(testName: string, docFilePath: string) {
 		});
 		expect(
 			fs.existsSync(getOutputPdfPath(testName, docFilePaths.jslatexDoc))
+		).toBe(true);
+	});
+}
+
+{
+	const testName = 'compiles jslatex doc with deps';
+	test.concurrent(testName, async () => {
+		await compileLatex({
+			latexFilePath: getLatexFilePath(docFilePaths.jslatexDocWithDeps),
+			outputDirectory: getOutDir(testName),
+			ignoreDirectories,
+		});
+		expect(
+			fs.existsSync(getOutputPdfPath(testName, docFilePaths.jslatexDocWithDeps))
 		).toBe(true);
 	});
 }
