@@ -17,7 +17,7 @@ importers:
       filenamify: ^5.1.0
       globby: ^13.1.1
       is-absolute: ^1.0.0
-      jslatex: ^0.1.2
+      jslatex: ^0.1.6
       lint-staged: ^12.3.5
       lion-git-hooks: ^1.0.7
       lion-system: ^1.0.14
@@ -25,6 +25,7 @@ importers:
       mock-argv: ^2.0.8
       nanoid: ^3.3.1
       prettier: ^2.5.1
+      sigfig: ^0.0.2
       tmp-promise: ^3.0.3
       tsc-alias: ^1.6.4
       typescript: ^4.6.2
@@ -35,8 +36,9 @@ importers:
       filenamify: 5.1.0
       globby: 13.1.1
       is-absolute: 1.0.0
-      jslatex: 0.1.2
+      jslatex: 0.1.6
       nanoid: 3.3.1
+      sigfig: 0.0.2
       tmp-promise: 3.0.3
     devDependencies:
       '@commitlint/cli': 16.2.1
@@ -1808,8 +1810,8 @@ packages:
     resolution: {integrity: sha512-Wm15TA5pLMOHtsik6uQTVyzXG8IpkVxnXAoAqV4+6zbJH3n5qnVz3iNAW+65r6WSrrYo0w6B8JJ0lcv2NhSmXQ==}
     dev: true
 
-  /embedded-ts/0.1.0:
-    resolution: {integrity: sha512-2Q5/fph8uY0j/hFn6LQFXF3RNgOr6ZHRgUKkDyPO98eBYb+nmDTsegOwTdglW94WC8c79G2bt6WgWTENvvJR1w==}
+  /embedded-ts/0.1.1:
+    resolution: {integrity: sha512-auUfMbXdA1i8JaGQywBM/9zBcjwhNWTiM1PL1G/cCqwMovIghd0nZpCVWpugXRWAJw9Cg5f5U8gpCpP7Hv1zyA==}
     hasBin: true
     dependencies:
       change-case: 4.1.2
@@ -2727,6 +2729,10 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
+  /from-exponential/1.1.1:
+    resolution: {integrity: sha512-VBE7f5OVnYwdgB3LHa+Qo29h8qVpxhVO9Trlc+AWm+/XNAgks1tAwMFHb33mjeiof77GglsJzeYF7OqXrROP/A==}
+    dev: false
+
   /fs-extra/10.0.1:
     resolution: {integrity: sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==}
     engines: {node: '>=12'}
@@ -3458,12 +3464,12 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jslatex/0.1.2:
-    resolution: {integrity: sha512-5VNugvdb7bwGdjzKpl7rg3IgZFnf9iB/OwbxAO4iN+DIJ/T4+f9fDl4laJ0/fEMZYEQeOru5hDHNB2KuYeumog==}
+  /jslatex/0.1.6:
+    resolution: {integrity: sha512-Ejhb56c/UR2TTD+uK8lbRkX08Rb4XK6YBc0l9KGqH+DRXA9N8JgTfdoXzfMqJNGEiP/sdRLK0wetmkuIfEZUEg==}
     hasBin: true
     dependencies:
       commander: 9.0.0
-      embedded-ts: 0.1.0
+      embedded-ts: 0.1.1
       escape-latex: 1.2.0
       escape-string-regexp: 5.0.0
       outdent: 0.8.0
@@ -4874,6 +4880,12 @@ packages:
       get-intrinsic: 1.1.1
       object-inspect: 1.12.0
     dev: true
+
+  /sigfig/0.0.2:
+    resolution: {integrity: sha512-j8K/jQJnK89QX189yZwGDyLL0oo3KdLDJNtxOxPm2CbJe91gKywOpVJrj5ljh+KllJT/R0gIoYlViTooI/83TA==}
+    dependencies:
+      from-exponential: 1.1.1
+    dev: false
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}

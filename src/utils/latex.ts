@@ -4,6 +4,7 @@ import type { ExecaChildProcess } from 'execa';
 import { execa } from 'execa';
 import { dir } from 'tmp-promise';
 import { compileJsLatex } from 'jslatex';
+import sigfig from 'sigfig';
 
 export class LatexError extends Error {
 	constructor(message: string) {
@@ -138,6 +139,11 @@ export async function compileLatex({
 		const jsLatex = await compileJsLatex({
 			latex,
 			projectBaseUrl: path.normalize(workingDir + '/'),
+			etsOptions: {
+				data: {
+					sigfig,
+				},
+			},
 		});
 		latexFilePath = path.join(
 			outputDirectory,
