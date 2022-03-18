@@ -17,7 +17,7 @@ importers:
       filenamify: ^5.1.0
       globby: ^13.1.1
       is-absolute: ^1.0.0
-      jslatex: ^0.1.6
+      jslatex: ^0.1.7
       lint-staged: ^12.3.5
       lion-git-hooks: ^1.0.7
       lion-system: ^1.0.14
@@ -36,7 +36,7 @@ importers:
       filenamify: 5.1.0
       globby: 13.1.1
       is-absolute: 1.0.0
-      jslatex: 0.1.6
+      jslatex: 0.1.7
       nanoid: 3.3.1
       sigfig: 0.0.2
       tmp-promise: 3.0.3
@@ -3464,8 +3464,8 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jslatex/0.1.6:
-    resolution: {integrity: sha512-Ejhb56c/UR2TTD+uK8lbRkX08Rb4XK6YBc0l9KGqH+DRXA9N8JgTfdoXzfMqJNGEiP/sdRLK0wetmkuIfEZUEg==}
+  /jslatex/0.1.7:
+    resolution: {integrity: sha512-cNhpLnP1UtaJSwAsG5dQkehzLNfE4MZOyocsZI0/o1sTzfWffBwq3VyVu5tWeIo0OeAMYH84pmeVtb6DqB2eWQ==}
     hasBin: true
     dependencies:
       commander: 9.0.0
