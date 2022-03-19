@@ -5,6 +5,7 @@ import { execa } from 'execa';
 import { dir } from 'tmp-promise';
 import { compileJsLatex } from 'jslatex';
 import sf from 'sigfig';
+import Decimal from 'decimal.js';
 
 export class LatexError extends Error {
 	constructor(message: string) {
@@ -142,6 +143,9 @@ export async function compileLatex({
 			etsOptions: {
 				data: {
 					sf,
+					d(n: Decimal.Value) {
+						return new Decimal(n);
+					},
 				},
 			},
 		});

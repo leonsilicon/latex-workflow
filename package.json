@@ -61,6 +61,7 @@
 	},
 	"dependencies": {
 		"commander": "^9.0.0",
+		"decimal.js": "^10.3.1",
 		"execa": "^6.1.0",
 		"filenamify": "^5.1.0",
 		"globby": "^13.1.1",

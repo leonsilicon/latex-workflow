@@ -11,6 +11,7 @@ importers:
       '@types/node': ^17.0.21
       '@types/tmp': ^0.2.3
       commander: ^9.0.0
+      decimal.js: ^10.3.1
       desm: ^1.2.0
       eslint: ^8.11.0
       execa: ^6.1.0
@@ -32,6 +33,7 @@ importers:
       vitest: ^0.6.1
     dependencies:
       commander: 9.0.0
+      decimal.js: 10.3.1
       execa: 6.1.0
       filenamify: 5.1.0
       globby: 13.1.1
@@ -1656,6 +1658,10 @@ packages:
     resolution: {integrity: sha512-VfxadyCECXgQlkoEAjeghAr5gY3Hf+IKjKb+X8tGVDtveCjN+USwprd2q3QXBR9T1+x2DG0XZF5/w+7HAtSaXA==}
     engines: {node: '>=10'}
     dev: true
+
+  /decimal.js/10.3.1:
+    resolution: {integrity: sha512-V0pfhfr8suzyPGOx3nmq4aHqabehUZn6Ch9kyFpV79TGDTWFmHqUqXdabR7QHqxzrYolF4+tVmJhUG4OURg5dQ==}
+    dev: false
 
   /decompress-response/3.3.0:
     resolution: {integrity: sha1-gKTdMjdIOEv6JICDYirt7Jgq3/M=}
