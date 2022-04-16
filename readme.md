@@ -1,5 +1,7 @@
 # latex-workflow
 
+[![npm version](https://img.shields.io/npm/v/latex-workflow)](https://npmjs.com/package/latex-workflow)
+
 A custom LaTeX workflow for compiling LaTeX documents.
 
 ## Installation
