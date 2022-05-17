@@ -1,5 +1,5 @@
 import { execaCommandSync as exec } from 'execa';
-import { copyPackageFiles, rmDist } from 'lion-system';
+import { copyPackageFiles, rmDist } from 'lionconfig';
 
 rmDist();
 exec('tsc');
